@@ -1,5 +1,9 @@
 import Link from "next/link";
-import { ColumnDefinition, Head, Nav, QueryTable } from "../../components";
+import { ColumnDefinition, Head, Nav } from "../../components";
+import {
+  editableColumn,
+  EditableQueryTable
+} from "../../components/table/EditableQueryTable";
 import { PcrPrimer } from "../../types/seqdb-api/resources/PcrPrimer";
 
 const PCRPRIMER_TABLE_COLUMNS: Array<ColumnDefinition<PcrPrimer>> = [
@@ -19,7 +23,7 @@ const PCRPRIMER_TABLE_COLUMNS: Array<ColumnDefinition<PcrPrimer>> = [
   "region.name",
   "type",
   "lotNumber",
-  "application",
+  editableColumn("application"),
   "direction",
   "seq",
   "tmCalculated"
@@ -35,7 +39,7 @@ export default function PcrPrimerListPage() {
         <Link href="/pcr-primer/edit" prefetch={true}>
           <a>Add PCR Primer</a>
         </Link>
-        <QueryTable<PcrPrimer>
+        <EditableQueryTable
           columns={PCRPRIMER_TABLE_COLUMNS}
           include="group,region"
           path="pcrPrimer"
