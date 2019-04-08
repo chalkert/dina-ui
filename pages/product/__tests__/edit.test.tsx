@@ -8,16 +8,7 @@ import { ProductEditPage } from "../edit";
 jest.mock("next/link", () => ({ children }) => <div>{children}</div>);
 
 /** Mock Kitsu "get" method. */
-const mockGet = jest.fn(async model => {
-  if (model === "product/100") {
-    // The request for the product returns the test product.
-    return { data: TEST_PRODUCT };
-  } else {
-    // Requests for the selectable resources (linked group) return an empty array.
-    return { data: [] };
-  }
-});
-
+const mockGet = jest.fn();
 
 /** Mock axios for operations requests. */
 const mockPatch = jest.fn();
@@ -47,7 +38,7 @@ function mountWithContext(element: JSX.Element) {
 
 describe("Product edit page", () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    jest.resetAllMocks();
   });
 
   it("Provides a form to add a Product.", done => {
@@ -141,12 +132,23 @@ describe("Product edit page", () => {
   });
 
   it("Provides a form to edit a Product.", async done => {
+    // The get request will return the existing product.
+    mockGet.mockImplementation(async model => {
+      if (model === "product/10") {
+        // The request for the product returns the test product.
+        return { data: TEST_PRODUCT };
+      } else {
+        // Requests for the selectable resources (linked group) return an empty array.
+        return { data: [] };
+      }
+    });
+
     // The patch request will be successful.
     mockPatch.mockReturnValueOnce({
       data: [
         {
           data: {
-            id: 1,
+            id: 10,
             type: "product"
           },
           status: 201
@@ -165,7 +167,7 @@ describe("Product edit page", () => {
     await Promise.resolve();
     wrapper.update();
 
-    // Check that the existing product's name value is in the field.
+    // // Check that the existing product's name value is in the field.
     expect(wrapper.find(".name-field input").prop("value")).toEqual(
       "Rapid Alkaline DNA Extraction"
     );
@@ -189,13 +191,13 @@ describe("Product edit page", () => {
         [
           {
             op: "PATCH",
-            path: "product/1",
+            path: "product/10",
             value: {
               attributes: expect.objectContaining({
                 name: "Rapid Alkaline DNA Extraction",
                 description: "new desc for product 10, was a null value"
               }),
-              id: "1",
+              id: "10",
               relationships: {
                 group: {
                   data: expect.objectContaining({ id: "8", type: "group" })
@@ -209,7 +211,7 @@ describe("Product edit page", () => {
       );
 
       // The user should be redirected to the existing product's details page.
-      expect(mockPush).lastCalledWith("/product/view?id=1");
+      expect(mockPush).lastCalledWith("/product/view?id=10");
       done();
     });
   });
@@ -224,7 +226,7 @@ const TEST_PRODUCT: Required<Product> = {
     id: "8",
     type: "group"
   },
-  id: "1",
+  id: "10",
   lastModified: "2019-03-27T04:00:00.000+0000",
   name: "Rapid Alkaline DNA Extraction",
   type: "product",
