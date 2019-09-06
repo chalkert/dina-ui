@@ -14,7 +14,7 @@ describe("MediaUploadView test", () => {
     const { container } = render(<MediaUploadView />);
     const rootDiv = container.querySelector("div");
     expect(rootDiv).toHaveProperty("style.border-color");
-    expect(rootDiv.querySelector("div.container>input")).toHaveProperty(
+    expect(rootDiv.querySelector("div#dropZone>input")).toHaveProperty(
       "multiple"
     );
   });
@@ -23,7 +23,7 @@ describe("MediaUploadView test", () => {
     const event = createDtWithFiles(files);
     const ui = <MediaUploadView />;
     const { container } = render(ui);
-    const dropzone = container.querySelector(".container");
+    const dropzone = container.querySelector("#dropZone");
     dispatchEvt(dropzone, "drop", event);
     await flushPromises(ui, container);
     expect(
