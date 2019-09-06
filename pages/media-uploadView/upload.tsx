@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState } from "react";
-import { DropzoneOptions, useDropzone } from "react-dropzone";
+import { useDropzone } from "react-dropzone";
 import Select from "react-select";
 import ReactTable from "react-table";
 
@@ -58,32 +58,28 @@ const rejectStyle = {
 };
 
 let files;
-let acceptableFileOptions;
-let parseSelectedOptionsToString;
+let acceptableFileTypes = FILE_TYPE_OPTIONS[1].value;
 
-function MediaUploadView({ accept }: DropzoneOptions) {
-  const [selectedOptions, setSelectedOptions] = useState(FILE_TYPE_OPTIONS);
+function MediaUploadView() {
+  const [selectedFileTypes, setSelectedFileTypes] = useState(
+    FILE_TYPE_OPTIONS[1]
+  );
 
-  const handleChange = mySelectedOptions => {
-    setSelectedOptions(mySelectedOptions);
-    parseSelectedOptionsToString = mySelectedOptions.map(option => {
+  const handleChange = mySelectedFileTypes => {
+    setSelectedFileTypes(mySelectedFileTypes);
+    acceptableFileTypes = mySelectedFileTypes.map(option => {
       return option.value;
     });
-    acceptableFileOptions = accept ? accept : parseSelectedOptionsToString;
   };
 
   const onDropAccepted = useCallback(dropAcceptedFiles => {
     dropAcceptedFiles.forEach(file => {
       const reader = new FileReader();
       const filename = file.name;
-      reader.onabort = () =>
-        //         console.log("file reading was aborted");
-        (reader.onerror = () =>
-          //         console.log("file reading has failed");
-          (reader.onload = () => {
-            const binaryStr = reader.result;
-            fileContent.set(filename, binaryStr);
-          }));
+      reader.onload = () => {
+        const binaryStr = reader.result;
+        fileContent.set(filename, binaryStr);
+      };
       reader.readAsDataURL(file);
     });
   }, []);
@@ -96,7 +92,7 @@ function MediaUploadView({ accept }: DropzoneOptions) {
     isDragReject,
     acceptedFiles
   } = useDropzone({
-    accept: acceptableFileOptions,
+    accept: acceptableFileTypes,
     onDropAccepted
   });
 
@@ -129,10 +125,11 @@ function MediaUploadView({ accept }: DropzoneOptions) {
             </h5>
           </div>
         </div>
-        <div>
+        <div id="fileTypesSelector">
           <Select
+            classNamePrefix="react_select"
             isMulti={true}
-            value={selectedOptions}
+            value={selectedFileTypes}
             onChange={handleChange}
             options={FILE_TYPE_OPTIONS}
           />
