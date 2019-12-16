@@ -1,0 +1,29 @@
+version: "3"
+services:
+  postgres:
+    image: postgres:9.6
+    environment:
+      POSTGRES_DB: dina_db
+      POSTGRES_PASSWORD: p
+    volumes:
+      - ./1-init-schema.sql:/docker-entrypoint-initdb.d/1-init-schema.sql
+  keycloak:
+    image: jboss/keycloak:8.0.1
+    environment:
+      DB_ADDR: postgres
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+      DB_DATABASE: dina_db
+      DB_USER: postgres
+      DB_PASSWORD: p
+      DB_SCHEMA: keycloak
+    ports:
+      - "8081:8080"
+  api:
+    image: poffm/seqdb-api:dev-1.4.0-SNAPSHOT
+    environment:
+      spring.config.additional-location: /api-dev-config.yml
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./api-dev-config.yml:/api-dev-config.yml
