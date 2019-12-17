@@ -19,6 +19,8 @@ services:
       DB_SCHEMA: keycloak
     ports:
       - "8081:8080"
+    volumes:
+      - ./init-keycloak-dev.sh:/opt/jboss/startup-scripts/init-keycloak-dev.sh
   api:
     image: poffm/seqdb-api:dev-1.4.0-SNAPSHOT
     environment:
