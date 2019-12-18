@@ -1,0 +1,41 @@
+{
+  "id": "dina-realm",
+  "realm": "dina-realm",
+  "enabled": true,
+  "clients": [
+    {
+      "id": "fe3ef8c1-e615-4528-960b-e86b3102c7c0",
+      "clientId": "dina",
+      "enabled": true,
+      "publicClient": true,
+      "redirectUris": ["*"]
+    }
+  ],
+  "roles": {
+    "realm": [
+      {
+        "id": "1814de78-f3a8-4950-9077-e4cfff8a25b5",
+        "name": "user"
+      },
+      {
+        "id": "90bc503d-ab0c-40a5-a0de-eedba9d09fc8",
+        "name": "admin"
+      }
+    ]
+  },
+  "defaultRoles": ["user"],
+  "users": [
+    {
+      "username": "admin",
+      "enabled": true,
+      "realmRoles": ["admin", "user"],
+      "credentials": [{ "type": "password", "value": "Admin" }]
+    },
+    {
+      "username": "user",
+      "enabled": true,
+      "realmRoles": ["user"],
+      "credentials": [{ "type": "password", "value": "User" }]
+    }
+  ]
+}
