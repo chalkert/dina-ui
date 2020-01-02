@@ -1,23 +1,23 @@
 {
   "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
-    "target": "esnext",
-    "module": "esnext",
     "jsx": "preserve",
     "lib": ["dom", "es2017"],
+    "module": "esnext",
     "moduleResolution": "node",
     "noEmit": true,
-    "allowSyntheticDefaultImports": true,
-    "skipLibCheck": true,
-    "strictNullChecks": true,
     "noUnusedLocals": false,
     "noUnusedParameters": true,
-    "removeComments": false,
-    "preserveConstEnums": true,
-    "sourceMap": true,
     "paths": {
       // Use our own Kitsu type definitions instead of the incomplete provided types.
       "kitsu": ["types/kitsu"]
-    }
+    },
+    "preserveConstEnums": true,
+    "removeComments": false,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "strictNullChecks": true,
+    "target": "esnext"
   }
 }

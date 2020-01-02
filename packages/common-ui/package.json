@@ -1,7 +1,17 @@
 {
-  "name": "common-ui",
+  "name": "@kwdina/common-ui",
   "version": "0.0.0",
   "main": "lib/index.ts",
+  "description": "UI Core for DINA",
+  "author": "Patrick Dooley <pdooley@itkunst.com>",
+  "license": "ISC",
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "react": "^16.10.2",
+    "react-dom": "^16.10.2"
+  },
   "scripts": {
     "lint": "tslint --project tsconfig.json",
     "lint:fix": "tslint --project tsconfig.json --fix",
@@ -24,6 +34,10 @@
     "title-case": "^2.1.1"
   },
   "devDependencies": {
+    "@babel/cli": "^7.7.7",
+    "@babel/core": "^7.7.7",
+    "@babel/preset-env": "^7.7.7",
+    "@babel/preset-react": "^7.7.4",
     "@types/enzyme": "^3.10.3",
     "@types/jest": "^24.0.18",
     "@types/node": "^12.7.12",
@@ -49,10 +63,6 @@
     "tslint-react": "^4.1.0",
     "typescript": "^3.7.2"
   },
-  "peerDependencies": {
-    "react": "^16.10.2",
-    "react-dom": "^16.10.2"
-  },
   "lint-staged": {
     "*.{ts,tsx}": [
       "tslint --project tsconfig.json --fix",
@@ -62,5 +72,10 @@
       "prettier --write",
       "git add"
     ]
-  }
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "author": "Patrick Dooley <pdooley@itkunst.com>",
+  "license": "ISC"
 }
