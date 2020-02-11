@@ -21,3 +21,4 @@ Install dependencies for the parent package and sub-packages using the following
 From the top-level directory run:
 
 `yarn docs`
+
