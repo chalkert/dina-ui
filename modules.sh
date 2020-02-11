@@ -26,6 +26,11 @@ rm -r ./node_modules/
 mv ./node_modules_cp/ ~/host/dina-ui-aafc/node_modules/
 mv ./yarn.lock ~/host/dina-ui-aafc/
 
-./packages/common-ui/modules.sh
-./packages/objectstore-ui/modules.sh
-./packages/seqdb-ui/modules.sh
+cd ./packages/common-ui
+./modules.sh
+
+cd ./packages/objectstore-ui
+./modules.sh
+
+cd ./packages.seqdb-ui
+./modules.sh
