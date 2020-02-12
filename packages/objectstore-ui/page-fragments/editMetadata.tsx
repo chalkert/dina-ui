@@ -48,7 +48,7 @@ function EditMetadataForm({
   originalFileName,
   fileIdentifier
 }: EditMetadataFormProps) {
-  const { apiClient } = useContext(ApiClientContext);
+  const { apiClient, version } = useContext(ApiClientContext);
   const router = useRouter();
 
   const managedAttributes = [];
@@ -89,14 +89,18 @@ function EditMetadataForm({
       });
       const serialized = await serializePromises;
       let mydata = { data: serialized };
-      const response = await apiClient.axios.post("/metadata", mydata, config);
+      const response = await apiClient.axios.post(
+        "/" + version + "/metadata",
+        mydata,
+        config
+      );
       if (response.data.data) {
         const metaID = response.data.data.id;
         metaManagedAttributes.forEach(async a => {
           a.relationships.objectStoreMetadata.data.id = metaID;
           mydata = { data: a };
           await apiClient.axios.post(
-            "/metadata-managed-attribute",
+            "/" + version + "/metadata-managed-attribute",
             mydata,
             config
           );

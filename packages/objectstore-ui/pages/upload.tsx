@@ -62,7 +62,7 @@ const BUCKET_NAME = "mybucket";
 export default function UploadPage() {
   const router = useRouter();
   const { formatMessage } = useObjectStoreIntl();
-  const { apiClient, save } = useContext(ApiClientContext);
+  const { apiClient, save, version } = useContext(ApiClientContext);
 
   const {
     getRootProps,
@@ -97,7 +97,7 @@ export default function UploadPage() {
 
       // Upload the file:
       const response = await apiClient.axios.post(
-        `/v1/file/${BUCKET_NAME}`,
+        "/" + version + `/file/${BUCKET_NAME}`,
         formData
       );
       uploadResponses.push(response.data);
@@ -111,9 +111,7 @@ export default function UploadPage() {
       } as Metadata,
       type: "metadata"
     }));
-
     const saveResults = await save(saveOperations);
-
     const ids = saveResults.map(res => res.id).join(",");
 
     await router.push({

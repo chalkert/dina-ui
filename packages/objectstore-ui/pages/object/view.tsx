@@ -4,8 +4,11 @@ import { useRouter } from "next/router";
 import { Head, Nav } from "../../components";
 import { FileView } from "../../components/file-view/FileView";
 import { MetadataDetails } from "../../components/metadata/MetadataDetails";
+import { appConfig } from "../../config";
 import { ObjectStoreMessage } from "../../intl/objectstore-intl";
 import { Metadata } from "../../types/objectstore-api";
+
+const appVersion = appConfig.version;
 
 const OBJECT_DETAILS_PAGE_CSS = `
   .file-viewer-wrapper img {
@@ -20,7 +23,7 @@ export default function MetadataViewPage() {
   const { id } = router.query;
 
   const { loading, response } = useQuery<Metadata>({
-    path: `metadata/${id}?include=managedAttributeMap`
+    path: appVersion + `/metadata/${id}?include=managedAttributeMap`
   });
 
   if (loading) {
@@ -30,7 +33,10 @@ export default function MetadataViewPage() {
   if (response) {
     const metadata = response.data;
 
-    const filePath = `/api/v1/file/${metadata.bucket}/${metadata.fileIdentifier}`;
+    const filePath =
+      "/api/" +
+      appVersion +
+      `/file/${metadata.bucket}/${metadata.fileIdentifier}`;
     const fileType = metadata.fileExtension.replace(/\./, "").toLowerCase();
 
     return (

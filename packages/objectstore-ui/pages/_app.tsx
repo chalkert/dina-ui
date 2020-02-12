@@ -6,7 +6,10 @@ import React from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-table/react-table.css";
 import "react-tabs/style/react-tabs.css";
+import { appConfig } from "../config";
 import { ObjectStoreIntlProvider } from "../intl/objectstore-intl";
+
+const version = appConfig.version;
 
 /** Get Random UUID */
 function uuidv4(): string {
@@ -25,7 +28,8 @@ function uuidv4(): string {
  */
 export default class ObjectStoreUiApp extends App {
   private contextValue = createContextValue({
-    getTempIdGenerator: () => uuidv4
+    getTempIdGenerator: () => uuidv4,
+    version
   });
 
   public render() {

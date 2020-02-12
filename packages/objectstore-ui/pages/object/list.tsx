@@ -13,11 +13,14 @@ import { useState } from "react";
 import { useCookies } from "react-cookie";
 import { Head, Nav, StoredObjectGallery } from "../../components";
 import { MetadataPreview } from "../../components/metadata/MetadataPreview";
+import { appConfig } from "../../config";
 import {
   ObjectStoreMessage,
   useObjectStoreIntl
 } from "../../intl/objectstore-intl";
 import { Metadata } from "../../types/objectstore-api";
+
+const appVersion = appConfig.version;
 
 type MetadataListLayoutType = "TABLE" | "GALLERY";
 
@@ -129,7 +132,7 @@ export default function MetadataListPage() {
                   columns: METADATA_TABLE_COLUMNS,
                   include: "acMetadataCreator",
                   onSuccess: res => setAvailableMetadatas(res.data),
-                  path: "metadata",
+                  path: appVersion + "/metadata",
                   reactTableProps: ({ response }) => ({
                     TbodyComponent:
                       listLayoutType === "GALLERY"

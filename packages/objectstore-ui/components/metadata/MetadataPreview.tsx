@@ -1,9 +1,12 @@
 import { LoadingSpinner, useQuery } from "common-ui";
 import Link from "next/link";
+import { appConfig } from "../../config";
 import { ObjectStoreMessage } from "../../intl/objectstore-intl";
 import { Metadata } from "../../types/objectstore-api";
 import { FileView } from "../file-view/FileView";
 import { MetadataDetails } from "./MetadataDetails";
+
+const appVersion = appConfig.version;
 
 interface MetadataPreviewProps {
   metadataId: string;
@@ -20,7 +23,7 @@ const METADATA_PREVIEW_STYLE = `
  */
 export function MetadataPreview({ metadataId }: MetadataPreviewProps) {
   const { loading, response } = useQuery<Metadata>({
-    path: `metadata/${metadataId}?include=managedAttributeMap`
+    path: appVersion + `/metadata/${metadataId}?include=managedAttributeMap`
   });
 
   if (loading) {
@@ -30,7 +33,10 @@ export function MetadataPreview({ metadataId }: MetadataPreviewProps) {
   if (response) {
     const metadata = response.data;
 
-    const filePath = `/api/v1/file/${metadata.bucket}/${metadata.fileIdentifier}`;
+    const filePath =
+      "/api/" +
+      appVersion +
+      `/file/${metadata.bucket}/${metadata.fileIdentifier}`;
     const fileType = metadata.fileExtension.replace(/\./, "").toLowerCase();
 
     return (

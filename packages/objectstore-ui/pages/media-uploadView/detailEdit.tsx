@@ -19,6 +19,7 @@ import React, { useContext, useState } from "react";
 import { Agent } from "types/objectstore-api/resources/Agent";
 import { isArray, isUndefined } from "util";
 import { AttributeBuilder, Head, Nav } from "../../components";
+import { appConfig } from "../../config";
 import { MetaManagedAttribute } from "../../types/objectstore-api/resources/MetaManagedAttribute";
 import { generateManagedAttributeValue } from "../../utils/metaUtils";
 
@@ -44,7 +45,7 @@ export function DetailEditPage({ router }: WithRouterProps) {
 
 function DetailEditForm({ router }: DetailEditFormProps) {
   const id = router?.query?.id;
-  const { apiClient } = useContext(ApiClientContext);
+  const { apiClient, version } = useContext(ApiClientContext);
   const [metainitialValues, setMetainitialValues] = useState({});
   let metainitialValues1 = {};
   const unManagedCtrl = new Array();
@@ -67,7 +68,7 @@ function DetailEditForm({ router }: DetailEditFormProps) {
 
   /* tslint:disable:no-string-literal */
   async function retrieveMetadata() {
-    const path = "metadata";
+    const path = version + "/metadata";
     const getParams = omitBy<GetParams>(
       {
         filter: { fileIdentifier: `${id}` },
@@ -75,6 +76,7 @@ function DetailEditForm({ router }: DetailEditFormProps) {
       },
       isUndefined
     );
+
     const metadata = await apiClient.get<any, undefined>(path, getParams);
     if (metadata && metadata.data[0]) {
       metainitialValues1 = metadata.data[0];
@@ -124,7 +126,7 @@ function DetailEditForm({ router }: DetailEditFormProps) {
     return metaAttrs;
   }
   async function retrieveManagedAttrs(ma) {
-    const path = "metadata-managed-attribute/" + ma.id;
+    const path = version + "/metadata-managed-attribute/" + ma.id;
     const getParams = omitBy<GetParams>(
       { include: "managedAttribute" },
       isUndefined
@@ -171,13 +173,13 @@ function DetailEditForm({ router }: DetailEditFormProps) {
         if (metaMa.id) {
           ids.push(metaMa.id);
           await apiClient.axios.patch(
-            "/metadata-managed-attribute/" + metaMa.id,
+            version + "/metadata-managed-attribute/" + metaMa.id,
             mydata,
             config
           );
         } else {
           const resps = await apiClient.axios.post(
-            "/metadata-managed-attribute",
+            version + "/metadata-managed-attribute",
             mydata,
             config
           );
@@ -201,7 +203,7 @@ function DetailEditForm({ router }: DetailEditFormProps) {
       mydata.data.relationships = { managedAttribute: { data: dataArr } };
       // send the meta with new relationships
       const response = await apiClient.axios.patch(
-        "/metadata/" + mydata.data.id,
+        version + "/metadata/" + mydata.data.id,
         mydata,
         config
       );
