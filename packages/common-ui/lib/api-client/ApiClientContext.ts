@@ -11,6 +11,7 @@ import {
 
 /** Api context interface. */
 export interface ApiClientContextI {
+  version?: string;
   /** Client to talk to the back-end API. */
   apiClient: Kitsu;
 
@@ -36,6 +37,7 @@ export interface ApiClientContextConfig {
    * The generated ID should be in the back-end's expected format (e.g. number or UUID).
    */
   getTempIdGenerator?: () => () => string;
+  version?: string;
 }
 
 /** save function args. */
@@ -60,7 +62,8 @@ export function createContextValue({
   getTempIdGenerator = () => {
     let idIterator = -100;
     return () => String(idIterator--);
-  }
+  },
+  version
 }: ApiClientContextConfig = {}): ApiClientContextI {
   const apiClient = new Kitsu({
     baseURL: "/api",
@@ -79,13 +82,17 @@ export function createContextValue({
     const { axios } = apiClient;
 
     // Do the operations request.
-    const axiosResponse = await axios.patch("operations", operations, {
-      headers: {
-        Accept: "application/json-patch+json",
-        "Content-Type": "application/json-patch+json",
-        "Crnk-Compact": "true"
+    const axiosResponse = await axios.patch(
+      version ? version + "/operations" : "operations",
+      operations,
+      {
+        headers: {
+          Accept: "application/json-patch+json",
+          "Content-Type": "application/json-patch+json",
+          "Crnk-Compact": "true"
+        }
       }
-    });
+    );
 
     // Check for errors. At least one error means that the entire request's transaction was
     // cancelled.
@@ -109,7 +116,6 @@ export function createContextValue({
     // Serialize the resources to JSONAPI format.
     const serializePromises = saveArgs.map(saveArg => serialize(saveArg));
     const serialized = await Promise.all(serializePromises);
-
     // Temp ID iterator. This is not persisted on the back-end as the actual database ID.
     const generateId = getTempIdGenerator();
 
@@ -158,7 +164,8 @@ export function createContextValue({
     apiClient,
     bulkGet,
     doOperations,
-    save
+    save,
+    version
   };
 }
 
