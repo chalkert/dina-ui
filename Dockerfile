@@ -10,7 +10,7 @@ COPY package*.json /app/
 
 RUN npm up
 
-COPY ./ /app/
+COPY /tmp/build/inputs/ /app/
 RUN ls -la
 RUN ls -la packages
 COPY ./packages/objectstore-ui /app/packages/objectstore-ui
