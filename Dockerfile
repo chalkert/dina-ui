@@ -6,6 +6,9 @@ FROM node:7.10 as build-stage
 WORKDIR /app
 COPY package*.json /app/
 
+RUN pwd
+RUN ls -la
+
 RUN npm up
 
 COPY ./ /app/
