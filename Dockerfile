@@ -3,6 +3,8 @@ FROM node:7.10 as build-stage
 #FROM  mhart/alpine-node:11 AS build-stage
 #FROM node:11.10.0 AS build-stage
 
+USER root
+RUN mkdir /app
 WORKDIR /app
 COPY package*.json /app/
 
