@@ -13,13 +13,6 @@ COPY package*.json /app/
 RUN yarn
 
 COPY /tmp/build/inputs/ /app/
-RUN ls -la
-RUN ls -la packages
-RUN ls -la packages/objectstore-ui
-
-COPY ./packages/objectstore-ui/ /app/packages/objectstore-ui/
-COPY ./packages/seqdb-ui/ /app/packages/seqdb-ui/
-COPY ./packages/common-ui/ /app/packages/common-ui/
 
 WORKDIR /app/packages/objectstore-ui
 
@@ -50,6 +43,7 @@ COPY --from=build-stage /app/packages/seqdb-ui/out/ /app/packagehtml/seqdb-ui
 COPY Caddyfile /app/Caddyfile
 COPY Caddyfile /app/Caddyfile.template
 COPY updateProxy.sh /app
+RUN chmod +x *.sh
 
 RUN chgrp -R 0 /app/ && \
     chmod -R g=u /app/
