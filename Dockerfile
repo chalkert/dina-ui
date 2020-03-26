@@ -4,7 +4,7 @@ FROM node:7.10 as build-stage
 #FROM node:11.10.0 AS build-stage
 
 WORKDIR /app
-COPY package*.json yarn.lock /app/
+COPY package*.json /app/
 
 RUN npm up
 
