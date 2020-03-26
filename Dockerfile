@@ -1,5 +1,6 @@
 # Stage 0, "build-stage", based on Node.js, to build and compile the frontend
-FROM node:7.10 as build-stage
+#FROM node:7.10 as build-stage
+FROM node AS  build-stage
 #FROM  mhart/alpine-node:11 AS build-stage
 #FROM node:11.10.0 AS build-stage
 
@@ -8,7 +9,8 @@ RUN mkdir /app
 WORKDIR /app
 COPY package*.json /app/
 
-RUN npm up
+#RUN npm up
+RUN yarn
 
 COPY /tmp/build/inputs/ /app/
 RUN ls -la
@@ -22,14 +24,17 @@ COPY ./packages/common-ui/ /app/packages/common-ui/
 WORKDIR /app/packages/objectstore-ui
 
 #RUN yarn add next
-#RUN yarn build
+RUN yarn
+RUN yarn build
 #RUN npm install next react react-dom
-#RUN npm run-script build
+#RUN npm run build
 
 WORKDIR /app/packages/seqdb-ui
 
-#RUN yarn build
-#RUN npm run-script build
+RUN yarn
+RUN yarn build
+#RUN npm up
+#RUN npm run build
 
 # Stage 1, based on Nginx, to have only the compiled app, ready for production with Nginx
 FROM abiosoft/caddy
