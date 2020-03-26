@@ -13,9 +13,11 @@ RUN npm up
 COPY /tmp/build/inputs/ /app/
 RUN ls -la
 RUN ls -la packages
-COPY ./packages/objectstore-ui /app/packages/objectstore-ui
-COPY ./packages/seqdb-ui /app/packages/seqdb-ui
-COPY ./packages/common-ui /app/packages/common-ui
+RUN ls -la packages/objectstore-ui
+
+COPY ./packages/objectstore-ui/ /app/packages/objectstore-ui/
+COPY ./packages/seqdb-ui/ /app/packages/seqdb-ui/
+COPY ./packages/common-ui/ /app/packages/common-ui/
 
 WORKDIR /app/packages/objectstore-ui
 
