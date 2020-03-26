@@ -43,7 +43,7 @@ COPY --from=build-stage /app/packages/seqdb-ui/out/ /app/packagehtml/seqdb-ui
 COPY Caddyfile /app/Caddyfile
 COPY Caddyfile /app/Caddyfile.template
 COPY updateProxy.sh /app
-RUN chmod +x *.sh
+RUN chmod +x /app/*.sh
 
 RUN chgrp -R 0 /app/ && \
     chmod -R g=u /app/
