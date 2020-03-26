@@ -8,12 +8,11 @@ RUN mkdir /app
 WORKDIR /app
 COPY package*.json /app/
 
-RUN pwd
-RUN ls -la
-
 RUN npm up
 
 COPY ./ /app/
+RUN ls -la
+RUN ls -la packages
 COPY ./packages/objectstore-ui /app/packages/objectstore-ui
 COPY ./packages/seqdb-ui /app/packages/seqdb-ui
 COPY ./packages/common-ui /app/packages/common-ui
