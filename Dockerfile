@@ -10,7 +10,7 @@ WORKDIR /app
 COPY package*.json /app/
 
 #RUN npm up
-RUN yarn
+#RUN yarn
 
 COPY /tmp/build/inputs/ /app/
 
