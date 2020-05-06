@@ -11,4 +11,3 @@ ext .html # Routes to static HTML files e.g. { URL /list } -> { File /list.html 
 
 proxy /api {$EXTERNAL_API_SVC}:8080
 
-proxy /login {$EXTERNAL_API_SVC}:8000/login
