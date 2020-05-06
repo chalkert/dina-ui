@@ -1,5 +1,4 @@
 # Configures Caddy (reverse proxy) to serve the app as static files and proxy
-# API urls to the API service.
 http://:8080
 
 limits 10mb
@@ -9,5 +8,8 @@ log stdout
 root /app/html
 ext .html # Routes to static HTML files e.g. { URL /list } -> { File /list.html }
 
-proxy /api {$EXTERNAL_API_SVC}:8080
+# Provide the Keycloak config to the front-end code:
+respond /keycloak.json "{ \"resource\": \"{$KEYCLOAK_CLIENTID}\", \"realm\": \"{$KEYCLOAK_REALM}\", \"auth-server-url\": \"{$KEYCLOAK_PUBLIC_URL}\" }"
 
+# Proxy to the back-end API:
+reverse_proxy /api/* {$EXTERNAL_API_SVC}
