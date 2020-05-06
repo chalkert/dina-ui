@@ -30,7 +30,7 @@ RUN yarn build
 #RUN npm run build
 
 # Stage 1, based on Nginx, to have only the compiled app, ready for production with Nginx
-FROM abiosoft/caddy
+FROM caddy/caddy:2.0.0-rc.3
 
 USER root
 
