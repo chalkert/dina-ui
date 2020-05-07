@@ -3,7 +3,7 @@ http://:8080
 log stdout
 
 # Serve the production app as static HTML files:
-root * /www/html
+root * /app/packagehtml/$HTML_ROOT
 file_server
 
 # Provide the Keycloak config to the front-end code:
