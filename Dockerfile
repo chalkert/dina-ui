@@ -30,8 +30,6 @@ COPY --from=build-stage /app/packages/objectstore-ui/out/ /app/packagehtml/objec
 COPY --from=build-stage /app/packages/seqdb-ui/out/ /app/packagehtml/seqdb-ui
 
 COPY Caddyfile /app/Caddyfile
-COPY Caddyfile /app/Caddyfile.template
-COPY updateProxy.sh /app
 RUN chmod +x /app/*.sh
 
 RUN chgrp -R 0 /app/ && \
@@ -45,5 +43,3 @@ WORKDIR /app
 USER 1000250000
 
 EXPOSE 8080
-
-ENTRYPOINT ["/app/updateProxy.sh"]
