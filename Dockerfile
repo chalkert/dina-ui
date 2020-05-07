@@ -30,13 +30,9 @@ COPY --from=build-stage /app/packages/objectstore-ui/out/ /app/packagehtml/objec
 COPY --from=build-stage /app/packages/seqdb-ui/out/ /app/packagehtml/seqdb-ui
 
 COPY Caddyfile /app/Caddyfile
-RUN chmod +x /app/*.sh
 
 RUN chgrp -R 0 /app/ && \
     chmod -R g=u /app/
-
-RUN chgrp -R 0 /app/Caddyfile && \
-    chmod -R g=u /app/Caddyfile
 
 WORKDIR /app
 
