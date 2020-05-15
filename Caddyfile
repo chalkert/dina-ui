@@ -12,6 +12,7 @@ respond /keycloak.json "{ \"resource\": \"{$KEYCLOAK_CLIENTID}\", \"realm\": \"{
 
 # Proxy to Keycloak
 reverse_proxy /auth/realms/* {$KEYCLOAK_SVC}
+reverse_proxy /auth/resources/* {$KEYCLOAK_SVC}
 
 # Proxy to the back-end API:
 reverse_proxy /api/* {$EXTERNAL_API_SVC}
